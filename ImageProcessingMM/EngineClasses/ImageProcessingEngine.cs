@@ -454,17 +454,42 @@ namespace ImageProcessingMM.EngineClasses
             int maskSize = (int)Math.Sqrt(mask.Length);
             int calculatedPixel = 0;
             int maskSum = mask.Min() < 0 ? 1 : mask.Sum();
+            int maskSumInner = 0;
+           
             int maskValue;
 
             int xo;
             int yo;
 
+            int lowerXOverlap = 0;
+            int higherXOverlap = 0;
+            int lowerYOverlap = 0;
+            int higherYOverlap = 0;
 
-           // int xOnStart = 
+            int yiInner = 0;
+
+            int calculatedPixelIndexX = 0;
+            int calculatedPixelIndexY = 0;
 
             Color helpColor;
 
-            int overlap = maskSize / 2;
+            int overlap = 0; // = maskSize / 2;
+            int maskOverlap = maskSize / 2;
+            switch(_method)
+            {
+                case KernelMethod.NoBorders:
+                    overlap = maskSize / 2;
+                    break;
+                case KernelMethod.CloneBorder:
+                    overlap = 0;
+                    break;
+                case KernelMethod.UseExisting:
+                    overlap = 0;
+                    break;
+
+            }
+            
+
 
             //Iterate through image
             for (int x = overlap; x < directBitmapPre.Width - overlap; ++x)
@@ -474,23 +499,51 @@ namespace ImageProcessingMM.EngineClasses
                     //Iterate through image
 
                     //Iterate through mask
-                    for (int xi = 0; xi < maskSize; xi++)
+                    for (int xi = 0 ; xi < maskSize; xi++)
                     {
                         for (int yi = 0; yi < maskSize; yi++)
                         {
 
                             maskValue = mask[xi + (yi * maskSize)];
-                            xo = x + xi - overlap;
-                            yo = y + yi - overlap;
+                            xo = x + xi - maskOverlap;
+                            yo = y + yi - maskOverlap;
 
-                            calculatedPixel += (directBitmapPre.GetPixel(x + xi - overlap, y + yi - overlap).R * mask[xi + (yi * maskSize)]);
+                            calculatedPixelIndexX = x + xi - maskOverlap;
+                            calculatedPixelIndexY = y + yi - maskOverlap;
+
+                            if((x == 0  && y ==0) || (x == directBitmapPre.Width && y == directBitmapPre.Height))
+                            {
+                                higherXOverlap = 0;
+                            }
+
+                             
+                            if(_method == KernelMethod.UseExisting && (calculatedPixelIndexX < 0 || calculatedPixelIndexY < 0 || calculatedPixelIndexX >= directBitmapPre.Width || calculatedPixelIndexY >= directBitmapPre.Height))
+                            {
+                                continue;
+                            }
+
+                            if(_method == KernelMethod.CloneBorder && (calculatedPixelIndexX < 0 || calculatedPixelIndexY < 0 || calculatedPixelIndexX >= directBitmapPre.Width || calculatedPixelIndexY >= directBitmapPre.Height))
+                            {
+                                calculatedPixel += (directBitmapPre.GetPixel(x, y).R * mask[xi + (yi * maskSize)]);
+
+                                continue;
+                            }
+                            maskSumInner += mask[xi + (yi * maskSize)];
+                            calculatedPixel += (directBitmapPre.GetPixel(calculatedPixelIndexX, calculatedPixelIndexY).R * mask[xi + (yi * maskSize)]);
 
 
                         }
                     }
 
+                    if (_method == KernelMethod.UseExisting)
+                    {
+                        calculatedPixel = maskSum == 1 ? calculatedPixel : calculatedPixel / maskSumInner;
+                    }
+                    else
+                    {
+                        calculatedPixel /= maskSum;
+                    }
 
-                    calculatedPixel /= maskSum;
                     if (calculatedPixel > 255)
                     {
                         calculatedPixel = 255;
@@ -499,7 +552,10 @@ namespace ImageProcessingMM.EngineClasses
                     {
                         calculatedPixel = 0;
                     }
+
+
                     directBitmapPost.SetPixel(x, y, Color.FromArgb(calculatedPixel, calculatedPixel, calculatedPixel));
+                    maskSumInner = 0;
                     calculatedPixel = 0;
 
 
@@ -508,18 +564,34 @@ namespace ImageProcessingMM.EngineClasses
 
         }
 
-        public void medianOperation(int maskSize)
+        public void medianOperation(int maskSize, KernelMethod _method = KernelMethod.NoBorders)
         {
 
             int[] maskObject = new int[maskSize * maskSize];
             Array.Sort(maskObject);
             int calculatedPixel;
             int elementttt;
+            int overlap = 0;
 
+            switch (_method)
+            {
+                case KernelMethod.NoBorders:
+                    overlap = maskSize / 2;
+                    break;
+                case KernelMethod.CloneBorder:
+                    overlap = 0;
+                    break;
+                case KernelMethod.UseExisting:
+                    overlap = 0;
+                    break;
+
+            }
 
             Color helpColor;
+            int maskOverlap = maskSize / 2;
 
-            int overlap = maskSize / 2;
+            int calculatedPixelXIndex = 0;
+            int calculatedPixelYindex = 0;
 
             //Iterate through image
             for (int x = overlap; x < directBitmapPre.Width - overlap; ++x)
@@ -533,7 +605,21 @@ namespace ImageProcessingMM.EngineClasses
                     {
                         for (int yi = 0; yi < maskSize; yi++)
                         {
-                            maskObject[xi + (yi * maskSize)] = directBitmapPre.GetPixel(x + xi - overlap, y + yi - overlap).R;
+                            calculatedPixelXIndex = x + xi - maskOverlap;
+                            calculatedPixelYindex = y + yi - maskOverlap;
+
+                            if(_method == KernelMethod.UseExisting && (calculatedPixelXIndex < 0 || calculatedPixelYindex < 0 || calculatedPixelXIndex >= directBitmapPre.Width || calculatedPixelYindex >= directBitmapPre.Height))
+                            {
+                                continue; //TODO: Apply mask size for exisiting
+                            }
+
+                            if (_method == KernelMethod.CloneBorder && (calculatedPixelXIndex < 0 || calculatedPixelYindex < 0 || calculatedPixelXIndex >= directBitmapPre.Width || calculatedPixelYindex >= directBitmapPre.Height))
+                            {
+                                calculatedPixelXIndex = x;
+                                calculatedPixelYindex = y;
+                                
+                            }
+                            maskObject[xi + (yi * maskSize)] = directBitmapPre.GetPixel(calculatedPixelXIndex, calculatedPixelYindex).R;
                         }
                     }
 
