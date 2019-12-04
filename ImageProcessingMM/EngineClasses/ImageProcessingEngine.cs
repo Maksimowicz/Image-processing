@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Drawing.Imaging;
 using System.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
+using ImageProcessingMM.LINQExtensions;
 
 
 
@@ -20,6 +21,8 @@ namespace ImageProcessingMM.EngineClasses
         UseExisting
     };
 
+
+    
 
 
     public class HistogramData
@@ -62,6 +65,7 @@ namespace ImageProcessingMM.EngineClasses
 
     public class ImageProcessingEngine
     {
+        
         private Image image { get; set; }
         //private Bitmap bitmapPre { get; set; }
         //private Bitmap bitmapPost { get; set; }
@@ -71,8 +75,6 @@ namespace ImageProcessingMM.EngineClasses
 
         DirectBitmap directBitmapPre;
         DirectBitmap directBitmapPost;
-
-
 
 
 
@@ -566,12 +568,15 @@ namespace ImageProcessingMM.EngineClasses
 
         public void medianOperation(int maskSize, KernelMethod _method = KernelMethod.NoBorders)
         {
+            List<int> maskList = null; 
+            
+            int[] maskObject = new int[maskSize * maskSize]; ///for easier median search using list
 
-            int[] maskObject = new int[maskSize * maskSize];
-            Array.Sort(maskObject);
+            //Array.Sort(maskObject);
             int calculatedPixel;
             int elementttt;
             int overlap = 0;
+            int maskSizeInner = 0; //mask size used for UseExisting method
 
             switch (_method)
             {
@@ -601,6 +606,7 @@ namespace ImageProcessingMM.EngineClasses
                     //Iterate through image
 
                     //Iterate through mask
+                    maskList = new List<int>();
                     for (int xi = 0; xi < maskSize; xi++)
                     {
                         for (int yi = 0; yi < maskSize; yi++)
@@ -608,9 +614,17 @@ namespace ImageProcessingMM.EngineClasses
                             calculatedPixelXIndex = x + xi - maskOverlap;
                             calculatedPixelYindex = y + yi - maskOverlap;
 
-                            if(_method == KernelMethod.UseExisting && (calculatedPixelXIndex < 0 || calculatedPixelYindex < 0 || calculatedPixelXIndex >= directBitmapPre.Width || calculatedPixelYindex >= directBitmapPre.Height))
+                            if(_method == KernelMethod.UseExisting)
                             {
-                                continue; //TODO: Apply mask size for exisiting
+                                if ((calculatedPixelXIndex < 0 || calculatedPixelYindex < 0 || calculatedPixelXIndex >= directBitmapPre.Width || calculatedPixelYindex >= directBitmapPre.Height))
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    maskSizeInner++;
+                                }
+                               
                             }
 
                             if (_method == KernelMethod.CloneBorder && (calculatedPixelXIndex < 0 || calculatedPixelYindex < 0 || calculatedPixelXIndex >= directBitmapPre.Width || calculatedPixelYindex >= directBitmapPre.Height))
@@ -619,19 +633,15 @@ namespace ImageProcessingMM.EngineClasses
                                 calculatedPixelYindex = y;
                                 
                             }
-                            maskObject[xi + (yi * maskSize)] = directBitmapPre.GetPixel(calculatedPixelXIndex, calculatedPixelYindex).R;
+
+                            maskList.Add(directBitmapPre.GetPixel(calculatedPixelXIndex, calculatedPixelYindex).R);
                         }
                     }
 
-                    Array.Sort(maskObject);
-
-                    elementttt = maskSize*maskSize / 2;
-                    calculatedPixel = maskObject[elementttt];
-
+                    calculatedPixel = maskList.Median();
+                    
                     directBitmapPost.SetPixel(x, y, Color.FromArgb(calculatedPixel, calculatedPixel, calculatedPixel));
                    
-
-
                 }
             }
 
