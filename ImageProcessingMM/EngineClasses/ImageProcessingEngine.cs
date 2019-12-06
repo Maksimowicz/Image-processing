@@ -10,7 +10,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using ImageProcessingMM.LINQExtensions;
 using ImageProcessingMM.DataTypes;
 
-
+//TODO: REFEACTOR DAT 
 
 namespace ImageProcessingMM.EngineClasses
 {
@@ -55,10 +55,17 @@ namespace ImageProcessingMM.EngineClasses
 
     public class ImageProcessingEngine
     {
-        
-        private Image image { get; set; }
-        //private Bitmap bitmapPre { get; set; }
-        //private Bitmap bitmapPost { get; set; }
+
+        Image image;
+        public static int[] RobertsFirst = { 1, 0, 0, -1 };
+        public static int[] RobertsSecond = { 0, -1, 1, 0 };
+
+        public static int[] SobelFirst = { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
+        public static int[] SobelSecond = { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
+
+        public static int[] PrewwitFirst = { 1, 0, -1, 1, 0, -1, 1, 0, -1 };
+        public static int[] PrewwitSecond = { 1, 1, 1, 0, 0, 0, -1, -1, -1 };
+       
         int pixelAmount { get; set; }
 
         public HistogramData hitogramsData { get; set; }
@@ -82,7 +89,7 @@ namespace ImageProcessingMM.EngineClasses
         }
 
 
-        private void ScalePixelValue(ref int pixel, SccalingMethod method, int min = 0, int max = 255)
+        private int ScalePixelValue(int pixel, SccalingMethod method, int min = 0, int max = 255)
         {
             int returnValue = 0;
 
@@ -91,42 +98,36 @@ namespace ImageProcessingMM.EngineClasses
                 case SccalingMethod.Cut:
                     if (pixel > 255)
                     {
-                        pixel = 255;
+                        returnValue = 255;
                     }
                     else if (pixel < 0)
                     {
-                        pixel = 0;
+                        returnValue = 0;
                     }
                   
                     break;
 
                 case SccalingMethod.Scale:
-                    pixel = ((pixel - min) / (max - min)) * 255;
+                    returnValue = (int)(((decimal)(pixel - min) / (decimal)(max - min)) * 255);
                     break;
 
                 case SccalingMethod.TriValue:
                     if (pixel > 255)
                     {
-                        pixel = 255;
+                        returnValue = 255;
                     }
                     else if (pixel < 0)
                     {
-                        pixel = 0;
+                        returnValue = 0;
                     }
                     else
                     {
-                        pixel = 128; // 255/2
+                        returnValue = 128; // 255/2
                     }
                     break;
             }
 
-            int b;
-            if (pixel > 255)
-            {
-                b = 2;
-            }
-
-           
+            return returnValue;
         }
 
         public HistogramData generateHistogram()
@@ -488,7 +489,7 @@ namespace ImageProcessingMM.EngineClasses
 
 
 
-        public void neighborhoodOperation(int[] mask, KernelMethod _method = KernelMethod.NoBorders, SccalingMethod sccalingMethod = SccalingMethod.Cut)
+        public void neighborhoodOperation(int[] mask, KernelMethod _method = KernelMethod.NoBorders, SccalingMethod sccalingMethod = SccalingMethod.Cut, Boolean directionEdge = false)
         {
             int maskSize = (int)Math.Sqrt(mask.Length);
             int calculatedPixel = 0;
@@ -599,7 +600,8 @@ namespace ImageProcessingMM.EngineClasses
 
                     if (sccalingMethod != SccalingMethod.Scale)
                     {
-                        this.ScalePixelValue(ref newPixel, sccalingMethod, sccalingMethod == SccalingMethod.Scale ? minPixel : 0, sccalingMethod == SccalingMethod.Scale ? maxPixel : 255);
+                        newPixel = this.ScalePixelValue(newPixel, sccalingMethod, sccalingMethod == SccalingMethod.Scale ? minPixel : 0, sccalingMethod == SccalingMethod.Scale ? maxPixel : 255);
+
                     }
 
 
@@ -710,10 +712,7 @@ namespace ImageProcessingMM.EngineClasses
                         }
                     }
 
-                    calculatedPixel = maskList.Median();
-
-                    
-                                     
+                    calculatedPixel = maskList.Median();                   
                     directBitmapPost.SetPixel(x, y, Color.FromArgb(calculatedPixel, calculatedPixel, calculatedPixel));
                    
                 }
@@ -731,5 +730,125 @@ namespace ImageProcessingMM.EngineClasses
 
 
         }
+
+
+        public void directEdgeOperation(DirectionEdgeMask directionEdgeMask, SccalingMethod sccalingMethod = SccalingMethod.Cut, KernelMethod kernelMethod = KernelMethod.NoBorders)
+        {
+            DirectBitmap directBitMapFinal = null;
+
+            //Bitmaps for performing operations
+            int[] bitmapPreScaleFirst = new int[directBitmapPre.Width * directBitmapPre.Height];
+            int[] bitmapPreScaleSecond = new int[directBitmapPre.Width * directBitmapPre.Height];
+
+
+
+            int[] maskFirst;
+            int[] maskSecond;
+
+            switch(directionEdgeMask)
+            {
+                case DirectionEdgeMask.Roberts:
+                    maskFirst = ImageProcessingEngine.RobertsFirst;
+                    maskSecond = ImageProcessingEngine.RobertsSecond;
+                    
+                    break;
+                case DirectionEdgeMask.Sobel:
+                    maskFirst = ImageProcessingEngine.SobelFirst;
+                    maskSecond = ImageProcessingEngine.SobelSecond;
+                    break;
+                case DirectionEdgeMask.Prewwit:
+                    maskFirst = ImageProcessingEngine.PrewwitFirst;
+                    maskSecond = ImageProcessingEngine.PrewwitSecond;
+                    break;
+            }
+   
+
+        }
+
+        public int[] robertsOperation(KernelMethod kernelMethod = KernelMethod.NoBorders, SccalingMethod sccalingMethod = SccalingMethod.Cut)
+        {
+            int[] bitmapPreScaleFirst = new int[directBitmapPre.Width * directBitmapPre.Height];
+            int[] bitmapPreScaleSecond = new int[directBitmapPre.Width * directBitmapPre.Height];
+            int[] resultImage = new int[directBitmapPre.Width * directBitmapPre.Height];
+
+            int xBond = kernelMethod == KernelMethod.NoBorders ? 1 : 0;
+            List<int> maskSumFirst;
+            List<int> maskSumSecond;
+
+            int calculatedX;
+            int calculatedY;
+
+            int[] maskFirst = ImageProcessingEngine.RobertsFirst;
+            int[] maskSecond = ImageProcessingEngine.RobertsSecond; 
+
+
+
+            for (int x = 0; x < directBitmapPre.Height - xBond; ++x)
+            {
+                for(int y = 0; y < directBitmapPre.Width - xBond; ++y)
+                {
+                    maskSumFirst = new List<int>();
+                    maskSumSecond = new List<int>();
+
+                    for(int xi = 0; xi < 2; xi++)
+                    {
+                        for(int yi = 0; yi < 2; yi++)
+                        {
+                            calculatedX = x + xi;
+                            calculatedY = y + yi;
+
+                            if (kernelMethod == KernelMethod.UseExisting)
+                            {
+                                if (calculatedX >= directBitmapPre.Width || calculatedY >= directBitmapPre.Height)
+                                {
+                                    continue;
+                                }
+                            }
+                            else if(kernelMethod == KernelMethod.CloneBorder)
+                            {
+                                if(calculatedX >= directBitmapPre.Width || calculatedY >= directBitmapPre.Height)
+                                {
+                                    //mask[xi + (yi * maskSize)]
+                                    maskSumFirst.Add(maskFirst[xi + (yi * 2)] * directBitmapPre.GetPixel(x, y).R);
+                                    maskSumSecond.Add(maskSecond[xi + (yi * 2)] * directBitmapPre.GetPixel(x, y).R);
+                                }
+                            }
+                            maskSumFirst.Add(maskFirst[xi + (yi * 2)] * directBitmapPre.GetPixel(x+xi, y+yi).R);
+                            maskSumSecond.Add(maskSecond[xi + (yi * 2)] * directBitmapPre.GetPixel(x+xi, y+yi).R);
+
+                        }
+                    }
+
+                    bitmapPreScaleFirst[x +(y*directBitmapPre.Width)] = Math.Abs(maskSumFirst.Sum());
+                    bitmapPreScaleSecond[x + (y * directBitmapPre.Width)] = Math.Abs(maskSumSecond.Sum());
+
+                    
+                }
+            }
+
+            int finalPixel = 0;
+            for(int x = 0; x < directBitmapPre.Height; x++)
+            {
+                for(int y = 0; y < directBitmapPre.Width; y++)
+                {
+                    finalPixel = bitmapPreScaleFirst[x + (y * directBitmapPre.Width)] + bitmapPreScaleSecond[x + (y * directBitmapPre.Width)];
+                    resultImage[x + (y * directBitmapPre.Width)] = finalPixel;
+                }
+            }
+            int min = resultImage.Min();
+            int max = resultImage.Max();
+            // resultImage.Select(x => this.ScalePixelValue( x, sccalingMethod, min, max));
+            for (int i = 0; i < directBitmapPre.Height * directBitmapPost.Width; i++)
+            {
+                resultImage[i] = this.ScalePixelValue(resultImage[i], sccalingMethod, min, max);
+            }
+
+            directBitmapPost.load(resultImage);
+   
+            return resultImage; 
+        }
+
+      
+
     }
 }

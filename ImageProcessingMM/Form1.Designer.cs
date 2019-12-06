@@ -69,6 +69,7 @@
             this.DetMin15 = new System.Windows.Forms.Button();
             this.DetMin215 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.ChartGroup.SuspendLayout();
@@ -341,7 +342,7 @@
             // Smoth014
             // 
             this.Smoth014.Location = new System.Drawing.Point(13, 459);
-            this.Smoth014.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Smoth014.Margin = new System.Windows.Forms.Padding(4);
             this.Smoth014.Name = "Smoth014";
             this.Smoth014.Size = new System.Drawing.Size(65, 80);
             this.Smoth014.TabIndex = 22;
@@ -352,7 +353,7 @@
             // Smoth111
             // 
             this.Smoth111.Location = new System.Drawing.Point(87, 459);
-            this.Smoth111.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Smoth111.Margin = new System.Windows.Forms.Padding(4);
             this.Smoth111.Name = "Smoth111";
             this.Smoth111.Size = new System.Drawing.Size(52, 80);
             this.Smoth111.TabIndex = 23;
@@ -363,7 +364,7 @@
             // Smoth121
             // 
             this.Smoth121.Location = new System.Drawing.Point(147, 459);
-            this.Smoth121.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Smoth121.Margin = new System.Windows.Forms.Padding(4);
             this.Smoth121.Name = "Smoth121";
             this.Smoth121.Size = new System.Drawing.Size(52, 80);
             this.Smoth121.TabIndex = 24;
@@ -374,7 +375,7 @@
             // Smoth1k
             // 
             this.Smoth1k.Location = new System.Drawing.Point(207, 459);
-            this.Smoth1k.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Smoth1k.Margin = new System.Windows.Forms.Padding(4);
             this.Smoth1k.Name = "Smoth1k";
             this.Smoth1k.Size = new System.Drawing.Size(52, 80);
             this.Smoth1k.TabIndex = 25;
@@ -385,7 +386,7 @@
             // Smoth0k
             // 
             this.Smoth0k.Location = new System.Drawing.Point(267, 459);
-            this.Smoth0k.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Smoth0k.Margin = new System.Windows.Forms.Padding(4);
             this.Smoth0k.Name = "Smoth0k";
             this.Smoth0k.Size = new System.Drawing.Size(52, 80);
             this.Smoth0k.TabIndex = 26;
@@ -396,7 +397,7 @@
             // KValue
             // 
             this.KValue.Location = new System.Drawing.Point(331, 482);
-            this.KValue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.KValue.Margin = new System.Windows.Forms.Padding(4);
             this.KValue.Name = "KValue";
             this.KValue.Size = new System.Drawing.Size(128, 22);
             this.KValue.TabIndex = 27;
@@ -415,7 +416,7 @@
             // DetMin14
             // 
             this.DetMin14.Location = new System.Drawing.Point(16, 546);
-            this.DetMin14.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.DetMin14.Margin = new System.Windows.Forms.Padding(4);
             this.DetMin14.Name = "DetMin14";
             this.DetMin14.Size = new System.Drawing.Size(63, 76);
             this.DetMin14.TabIndex = 29;
@@ -426,7 +427,7 @@
             // DetMin18
             // 
             this.DetMin18.Location = new System.Drawing.Point(87, 546);
-            this.DetMin18.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.DetMin18.Margin = new System.Windows.Forms.Padding(4);
             this.DetMin18.Name = "DetMin18";
             this.DetMin18.Size = new System.Drawing.Size(64, 76);
             this.DetMin18.TabIndex = 30;
@@ -437,7 +438,7 @@
             // Det1Min24
             // 
             this.Det1Min24.Location = new System.Drawing.Point(159, 546);
-            this.Det1Min24.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Det1Min24.Margin = new System.Windows.Forms.Padding(4);
             this.Det1Min24.Name = "Det1Min24";
             this.Det1Min24.Size = new System.Drawing.Size(71, 76);
             this.Det1Min24.TabIndex = 31;
@@ -448,7 +449,7 @@
             // DetMin19
             // 
             this.DetMin19.Location = new System.Drawing.Point(237, 546);
-            this.DetMin19.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.DetMin19.Margin = new System.Windows.Forms.Padding(4);
             this.DetMin19.Name = "DetMin19";
             this.DetMin19.Size = new System.Drawing.Size(71, 76);
             this.DetMin19.TabIndex = 32;
@@ -459,7 +460,7 @@
             // DetMin15
             // 
             this.DetMin15.Location = new System.Drawing.Point(316, 546);
-            this.DetMin15.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.DetMin15.Margin = new System.Windows.Forms.Padding(4);
             this.DetMin15.Name = "DetMin15";
             this.DetMin15.Size = new System.Drawing.Size(71, 76);
             this.DetMin15.TabIndex = 33;
@@ -470,7 +471,7 @@
             // DetMin215
             // 
             this.DetMin215.Location = new System.Drawing.Point(395, 546);
-            this.DetMin215.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.DetMin215.Margin = new System.Windows.Forms.Padding(4);
             this.DetMin215.Name = "DetMin215";
             this.DetMin215.Size = new System.Drawing.Size(71, 76);
             this.DetMin215.TabIndex = 34;
@@ -488,11 +489,22 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(1249, 149);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 45);
+            this.button4.TabIndex = 36;
+            this.button4.Text = "Roberts";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1564, 1036);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.DetMin215);
             this.Controls.Add(this.DetMin15);
@@ -587,6 +599,7 @@
         private System.Windows.Forms.Button DetMin18;
         private System.Windows.Forms.Button DetMin14;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }
 

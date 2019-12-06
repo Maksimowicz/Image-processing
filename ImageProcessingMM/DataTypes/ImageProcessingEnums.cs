@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImageProcessingMM.DataTypes
 {
+    
     public enum KernelMethod
     {
         NoBorders,
@@ -21,4 +22,11 @@ namespace ImageProcessingMM.DataTypes
         Scale,
         TriValue
     };
+
+    public enum DirectionEdgeMask
+    {
+        Roberts,
+        Sobel,
+        Prewwit
+    }
 }

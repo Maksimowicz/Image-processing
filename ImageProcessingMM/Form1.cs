@@ -367,5 +367,12 @@ namespace ImageProcessingMM
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            imageProcessingEngine.robertsOperation(DataTypes.KernelMethod.UseExisting, DataTypes.SccalingMethod.Scale);
+            ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
+            ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
     }
 }

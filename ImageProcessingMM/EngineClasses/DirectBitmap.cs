@@ -21,6 +21,17 @@ namespace ImageProcessingMM.EngineClasses
 
         protected GCHandle BitsHandle { get; private set; }
 
+        public DirectBitmap(DirectBitmap directBitmap)
+        {
+            Width = directBitmap.Width;
+            Height = directBitmap.Height;
+            Bits = (Int32[])directBitmap.Bits.Clone();
+            Bitmap = (Bitmap)directBitmap.Bitmap.Clone();
+
+        }
+
+
+
         public DirectBitmap(int width, int height)
         {
             Width = width;
@@ -96,6 +107,21 @@ namespace ImageProcessingMM.EngineClasses
             Bitmap.Dispose();
             BitsHandle.Free();
         }
+
+        public void load(int[] intTable)
+        {
+            int helpValue = 0;
+            for(int x = 0; x < Height; x++)
+            {
+                for(int y = 0; y < Width; y++)
+                {
+                    helpValue = intTable[x + (y * Width)];
+                    this.SetPixel(x, y, Color.FromArgb(helpValue, helpValue, helpValue));
+                }
+            }
+
+        }
+
 
         public Int32 getMin()
         {
