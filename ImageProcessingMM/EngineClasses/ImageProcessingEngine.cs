@@ -811,6 +811,7 @@ namespace ImageProcessingMM.EngineClasses
                                     //mask[xi + (yi * maskSize)]
                                     maskSumFirst.Add(maskFirst[xi + (yi * 2)] * directBitmapPre.GetPixel(x, y).R);
                                     maskSumSecond.Add(maskSecond[xi + (yi * 2)] * directBitmapPre.GetPixel(x, y).R);
+                                    continue;
                                 }
                             }
                             maskSumFirst.Add(maskFirst[xi + (yi * 2)] * directBitmapPre.GetPixel(x+xi, y+yi).R);
@@ -848,7 +849,119 @@ namespace ImageProcessingMM.EngineClasses
             return resultImage; 
         }
 
-      
+        public int[] sobelPrewwitOperation(KernelMethod kernelMethod = KernelMethod.NoBorders, SccalingMethod sccalingMethod = SccalingMethod.Cut, DirectionEdgeMask directionEdgeMask =  DirectionEdgeMask.Prewwit)
+        {
+            //TODO: Merge all neighborhood operations in little framework, big code redundancy, but its prototype so cool
+            int[] bitmapPreScaleFirst = new int[directBitmapPre.Width * directBitmapPre.Height];
+            int[] bitmapPreScaleSecond = new int[directBitmapPre.Width * directBitmapPre.Height];
+            int[] resultImage = new int[directBitmapPre.Width * directBitmapPre.Height];
+
+            int xBond = kernelMethod == KernelMethod.NoBorders ? 1 : 0;
+            List<int> maskSumFirst;
+            List<int> maskSumSecond;
+
+            int calculatedX;
+            int calculatedY;
+
+            int[] maskFirst = null;
+            int[] maskSecond = null;
+
+            switch(directionEdgeMask)
+            {
+                case DirectionEdgeMask.Prewwit:
+                    maskFirst = ImageProcessingEngine.PrewwitFirst;
+                    maskSecond = ImageProcessingEngine.PrewwitSecond;
+                    break;
+                case DirectionEdgeMask.Sobel:
+                    maskFirst = ImageProcessingEngine.SobelFirst;
+                    maskSecond = ImageProcessingEngine.SobelSecond;
+                    break;
+            }
+
+            const int maskSize = 3;
+
+            int overlap = 0; // = maskSize / 2;
+            int maskOverlap = maskSize / 2;
+
+            switch (kernelMethod)
+            {
+                case KernelMethod.NoBorders:
+                    overlap = maskSize / 2;
+                    break;
+                case KernelMethod.CloneBorder:
+                    overlap = 0;
+                    break;
+                case KernelMethod.UseExisting:
+                    overlap = 0;
+                    break;
+
+            }
+
+            for (int x = overlap; x < directBitmapPre.Height - overlap; ++x)
+            {
+                for (int y = overlap; y < directBitmapPre.Width - overlap; ++y)
+                {
+                    maskSumFirst = new List<int>();
+                    maskSumSecond = new List<int>();
+
+                    for (int xi = 0; xi < 3; xi++)
+                    {
+                        for (int yi = 0; yi < 3; yi++)
+                        {
+                            calculatedX = x + xi - maskOverlap;
+                            calculatedY = y + yi - maskOverlap;
+
+                            if (kernelMethod == KernelMethod.UseExisting)
+                            {
+                                if (calculatedX >= directBitmapPre.Width || calculatedY >= directBitmapPre.Height || calculatedX < 0 || calculatedY < 0)
+                                {
+                                    continue;
+                                }
+                            }
+                            else if (kernelMethod == KernelMethod.CloneBorder)
+                            {
+                                if (calculatedX >= directBitmapPre.Width || calculatedY >= directBitmapPre.Height || calculatedX < 0 || calculatedY < 0)
+                                {
+                                    //mask[xi + (yi * maskSize)]
+                                    maskSumFirst.Add(maskFirst[xi + (yi * 3)] * directBitmapPre.GetPixel(x, y).R);
+                                    maskSumSecond.Add(maskSecond[xi + (yi * 3)] * directBitmapPre.GetPixel(x, y).R);
+                                    continue;
+                                }
+                            }
+                            maskSumFirst.Add(maskFirst[xi + (yi * 3)] * directBitmapPre.GetPixel(calculatedX, calculatedY).R);
+                            maskSumSecond.Add(maskSecond[xi + (yi * 3)] * directBitmapPre.GetPixel(calculatedX, calculatedY).R);
+
+                        }
+                    }
+
+                    bitmapPreScaleFirst[x + (y * directBitmapPre.Width)] = Math.Abs(maskSumFirst.Sum());
+                    bitmapPreScaleSecond[x + (y * directBitmapPre.Width)] = Math.Abs(maskSumSecond.Sum());
+
+
+                }
+            }
+
+            int finalPixel = 0;
+            for (int x = 0; x < directBitmapPre.Height; x++)
+            {
+                for (int y = 0; y < directBitmapPre.Width; y++)
+                {
+                    finalPixel = bitmapPreScaleFirst[x + (y * directBitmapPre.Width)] + bitmapPreScaleSecond[x + (y * directBitmapPre.Width)];
+                    resultImage[x + (y * directBitmapPre.Width)] = finalPixel;
+                }
+            }
+            int min = resultImage.Min();
+            int max = resultImage.Max();
+            // resultImage.Select(x => this.ScalePixelValue( x, sccalingMethod, min, max));
+            for (int i = 0; i < directBitmapPre.Height * directBitmapPost.Width; i++)
+            {
+                resultImage[i] = this.ScalePixelValue(resultImage[i], sccalingMethod, min, max);
+            }
+
+            directBitmapPost.load(resultImage);
+
+            return resultImage;
+        }
 
     }
 }

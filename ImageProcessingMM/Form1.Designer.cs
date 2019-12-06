@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.ImageBox = new System.Windows.Forms.PictureBox();
             this.OpenFile = new System.Windows.Forms.Button();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
@@ -70,6 +70,8 @@
             this.DetMin215 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.ChartGroup.SuspendLayout();
@@ -123,17 +125,17 @@
             // RedChannel
             // 
             this.RedChannel.BorderlineColor = System.Drawing.Color.Red;
-            chartArea1.Name = "ChartArea1";
-            this.RedChannel.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.RedChannel.Legends.Add(legend1);
+            chartArea4.Name = "ChartArea1";
+            this.RedChannel.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.RedChannel.Legends.Add(legend4);
             this.RedChannel.Location = new System.Drawing.Point(0, 71);
             this.RedChannel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.RedChannel.Name = "RedChannel";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.RedChannel.Series.Add(series1);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.RedChannel.Series.Add(series4);
             this.RedChannel.Size = new System.Drawing.Size(1173, 421);
             this.RedChannel.TabIndex = 0;
             this.RedChannel.Text = "RedChannel";
@@ -481,11 +483,11 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1249, 95);
+            this.button3.Location = new System.Drawing.Point(1249, 98);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(75, 45);
             this.button3.TabIndex = 35;
-            this.button3.Text = "button3";
+            this.button3.Text = "Median";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -499,11 +501,33 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(1249, 199);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(75, 45);
+            this.button5.TabIndex = 37;
+            this.button5.Text = "Prewwit";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(1249, 250);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 45);
+            this.button6.TabIndex = 38;
+            this.button6.Text = "Sobel";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1564, 1036);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.DetMin215);
@@ -600,6 +624,8 @@
         private System.Windows.Forms.Button DetMin14;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button5;
     }
 }
 

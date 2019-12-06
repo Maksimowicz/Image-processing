@@ -374,5 +374,19 @@ namespace ImageProcessingMM
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            imageProcessingEngine.sobelPrewwitOperation(DataTypes.KernelMethod.UseExisting, DataTypes.SccalingMethod.Scale, DataTypes.DirectionEdgeMask.Prewwit);
+            ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
+            ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            imageProcessingEngine.sobelPrewwitOperation(DataTypes.KernelMethod.UseExisting, DataTypes.SccalingMethod.Scale, DataTypes.DirectionEdgeMask.Sobel);
+            ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
+            ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
     }
 }
