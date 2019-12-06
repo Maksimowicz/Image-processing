@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTypes\ImageProcessingEnums.cs" />
     <Compile Include="EngineClasses\DirectBitmap.cs" />
     <Compile Include="EngineClasses\ImageProcessingEngine.cs" />
     <Compile Include="Form1.cs">

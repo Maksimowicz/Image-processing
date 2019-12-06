@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ImageProcessingMM.DataTypes;
 
 namespace ImageProcessingMM.LINQExtensions
 {
@@ -32,5 +33,7 @@ namespace ImageProcessingMM.LINQExtensions
            
             return returnValue;
         }
+
+       
     }
 }

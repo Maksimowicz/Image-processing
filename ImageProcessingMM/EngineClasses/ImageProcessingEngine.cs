@@ -8,22 +8,12 @@ using System.Drawing.Imaging;
 using System.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
 using ImageProcessingMM.LINQExtensions;
+using ImageProcessingMM.DataTypes;
 
 
 
 namespace ImageProcessingMM.EngineClasses
 {
-
-    public enum KernelMethod
-    {
-        NoBorders,
-        CloneBorder,
-        UseExisting
-    };
-
-
-    
-
 
     public class HistogramData
     {
@@ -91,6 +81,53 @@ namespace ImageProcessingMM.EngineClasses
             pixelAmount = directBitmapPre.Height * directBitmapPre.Width;
         }
 
+
+        private void ScalePixelValue(ref int pixel, SccalingMethod method, int min = 0, int max = 255)
+        {
+            int returnValue = 0;
+
+            switch (method)
+            {
+                case SccalingMethod.Cut:
+                    if (pixel > 255)
+                    {
+                        pixel = 255;
+                    }
+                    else if (pixel < 0)
+                    {
+                        pixel = 0;
+                    }
+                  
+                    break;
+
+                case SccalingMethod.Scale:
+                    pixel = ((pixel - min) / (max - min)) * 255;
+                    break;
+
+                case SccalingMethod.TriValue:
+                    if (pixel > 255)
+                    {
+                        pixel = 255;
+                    }
+                    else if (pixel < 0)
+                    {
+                        pixel = 0;
+                    }
+                    else
+                    {
+                        pixel = 128; // 255/2
+                    }
+                    break;
+            }
+
+            int b;
+            if (pixel > 255)
+            {
+                b = 2;
+            }
+
+           
+        }
 
         public HistogramData generateHistogram()
         {
@@ -451,13 +488,25 @@ namespace ImageProcessingMM.EngineClasses
 
 
 
-        public void neighborhoodOperation(int[] mask, KernelMethod _method = KernelMethod.NoBorders)
+        public void neighborhoodOperation(int[] mask, KernelMethod _method = KernelMethod.NoBorders, SccalingMethod sccalingMethod = SccalingMethod.Cut)
         {
             int maskSize = (int)Math.Sqrt(mask.Length);
             int calculatedPixel = 0;
             int maskSum = mask.Min() < 0 ? 1 : mask.Sum();
             int maskSumInner = 0;
-           
+
+            int[] bitMapToScale = null;
+            if (sccalingMethod == SccalingMethod.Scale)
+            {
+                bitMapToScale = new int[directBitmapPre.Height * directBitmapPre.Width];
+            }
+
+
+
+            int minPixel = directBitmapPre.getMin();
+            int maxPixel = directBitmapPre.getMax();
+
+
             int maskValue;
 
             int xo;
@@ -546,21 +595,44 @@ namespace ImageProcessingMM.EngineClasses
                         calculatedPixel /= maskSum;
                     }
 
-                    if (calculatedPixel > 255)
+                    int newPixel = calculatedPixel;
+
+                    if (sccalingMethod != SccalingMethod.Scale)
                     {
-                        calculatedPixel = 255;
-                    }
-                    else if (calculatedPixel < 0)
-                    {
-                        calculatedPixel = 0;
+                        this.ScalePixelValue(ref newPixel, sccalingMethod, sccalingMethod == SccalingMethod.Scale ? minPixel : 0, sccalingMethod == SccalingMethod.Scale ? maxPixel : 255);
                     }
 
 
-                    directBitmapPost.SetPixel(x, y, Color.FromArgb(calculatedPixel, calculatedPixel, calculatedPixel));
+                    if (sccalingMethod != SccalingMethod.Scale)
+                    {
+                        directBitmapPost.SetPixel(x, y, Color.FromArgb(newPixel, newPixel, newPixel));
+                    }
+                    else
+                    {
+                        bitMapToScale[x + (y * directBitmapPre.Width)] = newPixel;
+                    }
                     maskSumInner = 0;
                     calculatedPixel = 0;
+                }
+            }
+
+            if(sccalingMethod == SccalingMethod.Scale)
+            {
+                int minValue = bitMapToScale.Min();
+                int maxValue = bitMapToScale.Max();
+                int pixelScalled;
+                List<int> checkList = new List<int>();
 
 
+
+                for (int x = 0; x < directBitmapPre.Width - overlap; ++x)
+                {
+                    for (int y = 0; y < directBitmapPre.Height - overlap; ++y)
+                    {
+                        pixelScalled = (int)(((decimal)(bitMapToScale[x + (y * directBitmapPre.Width)] - minValue)/ (decimal)(maxValue - minValue)) * 255);
+                        checkList.Add(pixelScalled);
+                        directBitmapPost.SetPixel(x, y, Color.FromArgb(pixelScalled, pixelScalled, pixelScalled));
+                    }
                 }
             }
 
@@ -639,7 +711,9 @@ namespace ImageProcessingMM.EngineClasses
                     }
 
                     calculatedPixel = maskList.Median();
+
                     
+                                     
                     directBitmapPost.SetPixel(x, y, Color.FromArgb(calculatedPixel, calculatedPixel, calculatedPixel));
                    
                 }
