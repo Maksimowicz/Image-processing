@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend10 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.ImageBox = new System.Windows.Forms.PictureBox();
             this.OpenFile = new System.Windows.Forms.Button();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
@@ -77,6 +77,12 @@
             this.Close = new System.Windows.Forms.Button();
             this.Open = new System.Windows.Forms.Button();
             this.Thinning = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.ChartGroup.SuspendLayout();
@@ -117,11 +123,11 @@
             // ChartGroup
             // 
             this.ChartGroup.Controls.Add(this.RedChannel);
-            this.ChartGroup.Location = new System.Drawing.Point(12, 654);
+            this.ChartGroup.Location = new System.Drawing.Point(12, 489);
             this.ChartGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ChartGroup.Name = "ChartGroup";
             this.ChartGroup.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ChartGroup.Size = new System.Drawing.Size(1187, 370);
+            this.ChartGroup.Size = new System.Drawing.Size(1187, 532);
             this.ChartGroup.TabIndex = 2;
             this.ChartGroup.TabStop = false;
             this.ChartGroup.Text = "ChartGroup";
@@ -130,17 +136,17 @@
             // RedChannel
             // 
             this.RedChannel.BorderlineColor = System.Drawing.Color.Red;
-            chartArea1.Name = "ChartArea1";
-            this.RedChannel.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.RedChannel.Legends.Add(legend1);
-            this.RedChannel.Location = new System.Drawing.Point(0, 71);
+            chartArea10.Name = "ChartArea1";
+            this.RedChannel.ChartAreas.Add(chartArea10);
+            legend10.Name = "Legend1";
+            this.RedChannel.Legends.Add(legend10);
+            this.RedChannel.Location = new System.Drawing.Point(14, 55);
             this.RedChannel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.RedChannel.Name = "RedChannel";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.RedChannel.Series.Add(series1);
+            series10.ChartArea = "ChartArea1";
+            series10.Legend = "Legend1";
+            series10.Name = "Series1";
+            this.RedChannel.Series.Add(series10);
             this.RedChannel.Size = new System.Drawing.Size(1173, 421);
             this.RedChannel.TabIndex = 0;
             this.RedChannel.Text = "RedChannel";
@@ -340,7 +346,7 @@
             // 
             // MASK
             // 
-            this.MASK.Location = new System.Drawing.Point(728, 514);
+            this.MASK.Location = new System.Drawing.Point(1337, 835);
             this.MASK.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MASK.Name = "MASK";
             this.MASK.Size = new System.Drawing.Size(215, 22);
@@ -348,10 +354,10 @@
             // 
             // Smoth014
             // 
-            this.Smoth014.Location = new System.Drawing.Point(13, 459);
+            this.Smoth014.Location = new System.Drawing.Point(1399, 544);
             this.Smoth014.Margin = new System.Windows.Forms.Padding(4);
             this.Smoth014.Name = "Smoth014";
-            this.Smoth014.Size = new System.Drawing.Size(65, 80);
+            this.Smoth014.Size = new System.Drawing.Size(56, 80);
             this.Smoth014.TabIndex = 22;
             this.Smoth014.Text = "0 1 0  1 4 1  0 1 0";
             this.Smoth014.UseVisualStyleBackColor = true;
@@ -359,7 +365,7 @@
             // 
             // Smoth111
             // 
-            this.Smoth111.Location = new System.Drawing.Point(87, 459);
+            this.Smoth111.Location = new System.Drawing.Point(1433, 632);
             this.Smoth111.Margin = new System.Windows.Forms.Padding(4);
             this.Smoth111.Name = "Smoth111";
             this.Smoth111.Size = new System.Drawing.Size(52, 80);
@@ -370,7 +376,7 @@
             // 
             // Smoth121
             // 
-            this.Smoth121.Location = new System.Drawing.Point(147, 459);
+            this.Smoth121.Location = new System.Drawing.Point(1219, 544);
             this.Smoth121.Margin = new System.Windows.Forms.Padding(4);
             this.Smoth121.Name = "Smoth121";
             this.Smoth121.Size = new System.Drawing.Size(52, 80);
@@ -381,7 +387,7 @@
             // 
             // Smoth1k
             // 
-            this.Smoth1k.Location = new System.Drawing.Point(207, 459);
+            this.Smoth1k.Location = new System.Drawing.Point(1279, 544);
             this.Smoth1k.Margin = new System.Windows.Forms.Padding(4);
             this.Smoth1k.Name = "Smoth1k";
             this.Smoth1k.Size = new System.Drawing.Size(52, 80);
@@ -392,7 +398,7 @@
             // 
             // Smoth0k
             // 
-            this.Smoth0k.Location = new System.Drawing.Point(267, 459);
+            this.Smoth0k.Location = new System.Drawing.Point(1339, 544);
             this.Smoth0k.Margin = new System.Windows.Forms.Padding(4);
             this.Smoth0k.Name = "Smoth0k";
             this.Smoth0k.Size = new System.Drawing.Size(52, 80);
@@ -403,7 +409,7 @@
             // 
             // KValue
             // 
-            this.KValue.Location = new System.Drawing.Point(331, 482);
+            this.KValue.Location = new System.Drawing.Point(1414, 508);
             this.KValue.Margin = new System.Windows.Forms.Padding(4);
             this.KValue.Name = "KValue";
             this.KValue.Size = new System.Drawing.Size(128, 22);
@@ -412,7 +418,7 @@
             // K
             // 
             this.K.AutoSize = true;
-            this.K.Location = new System.Drawing.Point(327, 463);
+            this.K.Location = new System.Drawing.Point(1410, 489);
             this.K.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.K.Name = "K";
             this.K.Size = new System.Drawing.Size(68, 17);
@@ -422,7 +428,7 @@
             // 
             // DetMin14
             // 
-            this.DetMin14.Location = new System.Drawing.Point(16, 546);
+            this.DetMin14.Location = new System.Drawing.Point(1219, 716);
             this.DetMin14.Margin = new System.Windows.Forms.Padding(4);
             this.DetMin14.Name = "DetMin14";
             this.DetMin14.Size = new System.Drawing.Size(63, 76);
@@ -433,7 +439,7 @@
             // 
             // DetMin18
             // 
-            this.DetMin18.Location = new System.Drawing.Point(87, 546);
+            this.DetMin18.Location = new System.Drawing.Point(1290, 716);
             this.DetMin18.Margin = new System.Windows.Forms.Padding(4);
             this.DetMin18.Name = "DetMin18";
             this.DetMin18.Size = new System.Drawing.Size(64, 76);
@@ -444,7 +450,7 @@
             // 
             // Det1Min24
             // 
-            this.Det1Min24.Location = new System.Drawing.Point(159, 546);
+            this.Det1Min24.Location = new System.Drawing.Point(1362, 716);
             this.Det1Min24.Margin = new System.Windows.Forms.Padding(4);
             this.Det1Min24.Name = "Det1Min24";
             this.Det1Min24.Size = new System.Drawing.Size(71, 76);
@@ -455,7 +461,7 @@
             // 
             // DetMin19
             // 
-            this.DetMin19.Location = new System.Drawing.Point(237, 546);
+            this.DetMin19.Location = new System.Drawing.Point(1219, 632);
             this.DetMin19.Margin = new System.Windows.Forms.Padding(4);
             this.DetMin19.Name = "DetMin19";
             this.DetMin19.Size = new System.Drawing.Size(71, 76);
@@ -466,10 +472,10 @@
             // 
             // DetMin15
             // 
-            this.DetMin15.Location = new System.Drawing.Point(316, 546);
+            this.DetMin15.Location = new System.Drawing.Point(1290, 632);
             this.DetMin15.Margin = new System.Windows.Forms.Padding(4);
             this.DetMin15.Name = "DetMin15";
-            this.DetMin15.Size = new System.Drawing.Size(71, 76);
+            this.DetMin15.Size = new System.Drawing.Size(64, 76);
             this.DetMin15.TabIndex = 33;
             this.DetMin15.Text = "0 -1 0 -1 5 -1 0 -1 0";
             this.DetMin15.UseVisualStyleBackColor = true;
@@ -477,10 +483,10 @@
             // 
             // DetMin215
             // 
-            this.DetMin215.Location = new System.Drawing.Point(395, 546);
+            this.DetMin215.Location = new System.Drawing.Point(1362, 632);
             this.DetMin215.Margin = new System.Windows.Forms.Padding(4);
             this.DetMin215.Name = "DetMin215";
-            this.DetMin215.Size = new System.Drawing.Size(71, 76);
+            this.DetMin215.Size = new System.Drawing.Size(63, 76);
             this.DetMin215.TabIndex = 34;
             this.DetMin215.Text = "1 -2 1 -2 5 -2 1 -2 1";
             this.DetMin215.UseVisualStyleBackColor = true;
@@ -488,7 +494,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1249, 98);
+            this.button3.Location = new System.Drawing.Point(1330, 149);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 45);
             this.button3.TabIndex = 35;
@@ -558,7 +564,7 @@
             // 
             // Open
             // 
-            this.Open.Location = new System.Drawing.Point(1249, 473);
+            this.Open.Location = new System.Drawing.Point(1330, 371);
             this.Open.Name = "Open";
             this.Open.Size = new System.Drawing.Size(75, 45);
             this.Open.TabIndex = 42;
@@ -576,11 +582,84 @@
             this.Thinning.UseVisualStyleBackColor = true;
             this.Thinning.Click += new System.EventHandler(this.Thinning_Click);
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Scaling",
+            "Cut",
+            "Trivalue"});
+            this.comboBox1.Location = new System.Drawing.Point(1324, 38);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 24);
+            this.comboBox1.TabIndex = 44;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "Use existing",
+            "Clone",
+            "No borders"});
+            this.comboBox2.Location = new System.Drawing.Point(1324, 68);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(121, 24);
+            this.comboBox2.TabIndex = 45;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(1216, 38);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(94, 17);
+            this.label1.TabIndex = 46;
+            this.label1.Text = "Scale method";
+            this.label1.Click += new System.EventHandler(this.label1_Click_1);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(1216, 68);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 17);
+            this.label2.TabIndex = 47;
+            this.label2.Text = "Borders";
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "Cross",
+            "Rectlange"});
+            this.comboBox3.Location = new System.Drawing.Point(1324, 98);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(121, 24);
+            this.comboBox3.TabIndex = 48;
+            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(1209, 102);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(109, 17);
+            this.label3.TabIndex = 49;
+            this.label3.Text = "Structure shape";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1564, 1036);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(1564, 1055);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.Thinning);
             this.Controls.Add(this.Open);
             this.Controls.Add(this.Close);
@@ -691,6 +770,12 @@
         private System.Windows.Forms.Button Close;
         private System.Windows.Forms.Button Open;
         private System.Windows.Forms.Button Thinning;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox comboBox3;
     }
 }
 

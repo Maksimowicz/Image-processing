@@ -104,6 +104,10 @@ namespace ImageProcessingMM.EngineClasses
                     {
                         returnValue = 0;
                     }
+                    else
+                    {
+                        returnValue = pixel;
+                    }
                   
                     break;
 
@@ -828,9 +832,9 @@ namespace ImageProcessingMM.EngineClasses
             }
 
             int finalPixel = 0;
-            for(int x = 0; x < directBitmapPre.Height; x++)
+            for(int x = 0; x < directBitmapPre.Width; x++)
             {
-                for(int y = 0; y < directBitmapPre.Width; y++)
+                for(int y = 0; y < directBitmapPre.Height; y++)
                 {
                     finalPixel = bitmapPreScaleFirst[x + (y * directBitmapPre.Width)] + bitmapPreScaleSecond[x + (y * directBitmapPre.Width)];
                     resultImage[x + (y * directBitmapPre.Width)] = finalPixel;
@@ -961,6 +965,21 @@ namespace ImageProcessingMM.EngineClasses
             directBitmapPost.load(resultImage);
 
             return resultImage;
+        }
+
+        int[] resultMask(int[] firstMask, int[] secondMask)
+        {
+            int[] resultMask = new int[5 * 5];
+            int i = 0;
+            for(int firstIte = 9; firstIte > 0; firstIte--) //g
+            {
+                for(int secondIte =0; secondIte < 9; secondIte ++) //f
+                {
+                 //   resultMask[i++] = 
+                }
+            }
+
+            return resultMask;
         }
 
     }

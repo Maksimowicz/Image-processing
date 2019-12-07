@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ImageProcessingMM.EngineClasses;
 using System.Windows.Forms.DataVisualization.Charting;
+using ImageProcessingMM.DataTypes;
 
 using Emgu.CV;
 using Emgu.CV.Structure;
@@ -23,12 +24,19 @@ namespace ImageProcessingMM
         ImageProcessingEngine imageProcessingEngine { get; set; }
         Boolean isGrey { get; set; }
         string filePathInner { get; set; }
-        
+        SccalingMethod scallingMethod { get; set; }
+        KernelMethod kernelMethod { get; set; }
+        ElementShape elementShapee { get; set; }
+        int trackBarValue { get; set; }
         
         public Form1()
         {
             InitializeComponent();
             isGrey = false;
+
+            comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 0;
+            comboBox3.SelectedIndex = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -217,11 +225,13 @@ namespace ImageProcessingMM
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             trackBar.Value = (int)trackBarUpDown.Value;
+            trackBarValue = (int)trackBar.Value;
         }
 
         private void trackBar_Scroll(object sender, EventArgs e)
         {
             trackBarUpDown.Value = trackBar.Value;
+            trackBarValue = (int)trackBar.Value;
            
         }
 
@@ -283,7 +293,7 @@ namespace ImageProcessingMM
         private void Smoth014_Click(object sender, EventArgs e)
         {
             int[] mask = { 0, 1, 0, 1, 4, 1, 0, 1, 0 };
-            imageProcessingEngine.neighborhoodOperation(mask);
+            imageProcessingEngine.neighborhoodOperation(mask,kernelMethod,scallingMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -291,7 +301,7 @@ namespace ImageProcessingMM
         private void Smoth111_Click(object sender, EventArgs e)
         {
             int[] mask = { 1, 1, 1, 1, 1, 1, 1, 1, 1};
-            imageProcessingEngine.neighborhoodOperation(mask);
+            imageProcessingEngine.neighborhoodOperation(mask,kernelMethod,scallingMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -299,7 +309,7 @@ namespace ImageProcessingMM
         private void Smoth121_Click(object sender, EventArgs e)
         {
             int[] mask = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
-            imageProcessingEngine.neighborhoodOperation(mask);
+            imageProcessingEngine.neighborhoodOperation(mask,kernelMethod,scallingMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -307,7 +317,7 @@ namespace ImageProcessingMM
         private void Smoth1k_Click(object sender, EventArgs e)
         {
             int[] mask = { 1, 1, 1, 1, (int)KValue.Value, 1, 1, 1, 1 };
-            imageProcessingEngine.neighborhoodOperation(mask);
+            imageProcessingEngine.neighborhoodOperation(mask,kernelMethod,scallingMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -315,7 +325,7 @@ namespace ImageProcessingMM
         private void Smoth0k_Click(object sender, EventArgs e)
         {
             int[] mask = { 0, 1, 0, 1, (int)KValue.Value, 1, 0, 1, 0 };
-            imageProcessingEngine.neighborhoodOperation(mask);
+            imageProcessingEngine.neighborhoodOperation(mask,kernelMethod,scallingMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -323,7 +333,7 @@ namespace ImageProcessingMM
         private void DetMin14_Click(object sender, EventArgs e)
         {
             int[] mask = { 0, -1, 0, -1, 4, -1, 0, -1, 0 };
-            imageProcessingEngine.neighborhoodOperation(mask);
+            imageProcessingEngine.neighborhoodOperation(mask,kernelMethod, scallingMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -331,7 +341,7 @@ namespace ImageProcessingMM
         private void DetMin18_Click(object sender, EventArgs e)
         {
             int[] mask = { -1, -1, -1, -1, 8, -1, -1, -1, -1 };
-            imageProcessingEngine.neighborhoodOperation(mask);
+            imageProcessingEngine.neighborhoodOperation(mask, kernelMethod, scallingMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -339,7 +349,7 @@ namespace ImageProcessingMM
         private void Det1Min24_Click(object sender, EventArgs e)
         {
             int[] mask = { -1, -2, -1, -1, 4, -1, -1, -2, -1 };
-            imageProcessingEngine.neighborhoodOperation(mask);
+            imageProcessingEngine.neighborhoodOperation(mask, kernelMethod, scallingMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -347,7 +357,7 @@ namespace ImageProcessingMM
         private void DetMin19_Click(object sender, EventArgs e)
         {
             int[] mask = { -1, -1, -1, -1, 9, -1, -1, -1, -1 };
-            imageProcessingEngine.neighborhoodOperation(mask);
+            imageProcessingEngine.neighborhoodOperation(mask, kernelMethod, scallingMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -355,7 +365,7 @@ namespace ImageProcessingMM
         private void DetMin15_Click(object sender, EventArgs e)
         {
             int[] mask = { 0, -1, 0, -1, 5, -1, 0, -1, 0 };
-            imageProcessingEngine.neighborhoodOperation(mask);
+            imageProcessingEngine.neighborhoodOperation(mask, kernelMethod, scallingMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -363,35 +373,36 @@ namespace ImageProcessingMM
         private void DetMin215_Click(object sender, EventArgs e)
         {
             int[] mask = { -1, -2, -1, -1, 5, -1, -1, -2, -1 };
-            imageProcessingEngine.neighborhoodOperation(mask);
+            imageProcessingEngine.neighborhoodOperation(mask, kernelMethod, scallingMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            imageProcessingEngine.medianOperation(5);
+            int medianSize = (int)trackBarUpDown.Value;
+            imageProcessingEngine.medianOperation(medianSize,kernelMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            imageProcessingEngine.robertsOperation(DataTypes.KernelMethod.UseExisting, DataTypes.SccalingMethod.Scale);
+            imageProcessingEngine.robertsOperation(kernelMethod, scallingMethod);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            imageProcessingEngine.sobelPrewwitOperation(DataTypes.KernelMethod.UseExisting, DataTypes.SccalingMethod.Scale, DataTypes.DirectionEdgeMask.Prewwit);
+            imageProcessingEngine.sobelPrewwitOperation(kernelMethod, scallingMethod, DataTypes.DirectionEdgeMask.Prewwit);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            imageProcessingEngine.sobelPrewwitOperation(DataTypes.KernelMethod.UseExisting, DataTypes.SccalingMethod.Scale, DataTypes.DirectionEdgeMask.Sobel);
+            imageProcessingEngine.sobelPrewwitOperation(kernelMethod, scallingMethod, DataTypes.DirectionEdgeMask.Sobel);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -403,15 +414,31 @@ namespace ImageProcessingMM
             Mat mat = imageEmgu.Mat;
             Mat metGrey = new Mat();
             Mat metGeryOutput = new Mat();
+            BorderType borderType = BorderType.Default;
 
-            ElementShape elementShape = ElementShape.Cross;
-           
+            switch(kernelMethod)
+            {
+                case KernelMethod.CloneBorder:
+                    borderType = BorderType.Replicate;
+                    break;
+                case KernelMethod.NoBorders:
+                    borderType = BorderType.Default;
+                    break;
+                case KernelMethod.UseExisting:
+                    borderType = BorderType.Isolated;
+                    break;
+            }
+
+
+            ElementShape elementShape = elementShapee;
+
+
 
             CvInvoke.CvtColor(mat, metGrey, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
 
             Mat structuringElement = CvInvoke.GetStructuringElement(elementShape, new Size(3, 3), new Point(1, 1));
          
-            CvInvoke.Dilate(metGrey, metGeryOutput, structuringElement, new System.Drawing.Point(1, 1), 2, BorderType.Isolated, CvInvoke.MorphologyDefaultBorderValue);
+            CvInvoke.Dilate(metGrey, metGeryOutput, structuringElement, new System.Drawing.Point(1, 1), trackBarValue, borderType, CvInvoke.MorphologyDefaultBorderValue);
             ImagePostBox.Image = metGeryOutput.ToImage<Bgr, byte>().Bitmap;
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
 
@@ -422,15 +449,27 @@ namespace ImageProcessingMM
             Mat mat = imageEmgu.Mat;
             Mat metGrey = new Mat();
             Mat metGeryOutput = new Mat();
+            BorderType borderType = BorderType.Default;
+            ElementShape elementShape = elementShapee;
 
-            ElementShape elementShape = ElementShape.Cross;
-
+            switch (kernelMethod)
+            {
+                case KernelMethod.CloneBorder:
+                    borderType = BorderType.Replicate;
+                    break;
+                case KernelMethod.NoBorders:
+                    borderType = BorderType.Default;
+                    break;
+                case KernelMethod.UseExisting:
+                    borderType = BorderType.Isolated;
+                    break;
+            }
 
             CvInvoke.CvtColor(mat, metGrey, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
 
             Mat structuringElement = CvInvoke.GetStructuringElement(elementShape, new Size(3, 3), new Point(1, 1));
 
-            CvInvoke.Erode(metGrey, metGeryOutput, structuringElement, new System.Drawing.Point(1, 1), 2, BorderType.Isolated, CvInvoke.MorphologyDefaultBorderValue);
+            CvInvoke.Erode(metGrey, metGeryOutput, structuringElement, new System.Drawing.Point(1, 1), trackBarValue, borderType, CvInvoke.MorphologyDefaultBorderValue);
             ImagePostBox.Image = metGeryOutput.ToImage<Bgr, byte>().Bitmap;
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -440,15 +479,28 @@ namespace ImageProcessingMM
             Mat mat = imageEmgu.Mat;
             Mat metGrey = new Mat();
             Mat metGeryOutput = new Mat();
+            BorderType borderType = BorderType.Default;
+            ElementShape elementShape = elementShapee;
 
-            ElementShape elementShape = ElementShape.Cross;
 
+            switch (kernelMethod)
+            {
+                case KernelMethod.CloneBorder:
+                    borderType = BorderType.Replicate;
+                    break;
+                case KernelMethod.NoBorders:
+                    borderType = BorderType.Default;
+                    break;
+                case KernelMethod.UseExisting:
+                    borderType = BorderType.Isolated;
+                    break;
+            }
 
             CvInvoke.CvtColor(mat, metGrey, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
 
             Mat structuringElement = CvInvoke.GetStructuringElement(elementShape, new Size(3, 3), new Point(1, 1));
 
-            CvInvoke.MorphologyEx(metGrey, metGeryOutput, MorphOp.Close, structuringElement, new System.Drawing.Point(1, 1), 2, BorderType.Isolated, CvInvoke.MorphologyDefaultBorderValue);
+            CvInvoke.MorphologyEx(metGrey, metGeryOutput, MorphOp.Close, structuringElement, new System.Drawing.Point(1, 1), trackBarValue, borderType, CvInvoke.MorphologyDefaultBorderValue);
             ImagePostBox.Image = metGeryOutput.ToImage<Bgr, byte>().Bitmap;
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -458,15 +510,27 @@ namespace ImageProcessingMM
             Mat mat = imageEmgu.Mat;
             Mat metGrey = new Mat();
             Mat metGeryOutput = new Mat();
+            BorderType borderType = BorderType.Default;
+            ElementShape elementShape = elementShapee;
 
-            ElementShape elementShape = ElementShape.Cross;
-
+            switch (kernelMethod)
+            {
+                case KernelMethod.CloneBorder:
+                    borderType = BorderType.Replicate;
+                    break;
+                case KernelMethod.NoBorders:
+                    borderType = BorderType.Default;
+                    break;
+                case KernelMethod.UseExisting:
+                    borderType = BorderType.Isolated;
+                    break;
+            }
 
             CvInvoke.CvtColor(mat, metGrey, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
 
             Mat structuringElement = CvInvoke.GetStructuringElement(elementShape, new Size(3, 3), new Point(1, 1));
 
-            CvInvoke.MorphologyEx(metGrey, metGeryOutput, MorphOp.Open, structuringElement, new System.Drawing.Point(1, 1), 2, BorderType.Isolated, CvInvoke.MorphologyDefaultBorderValue);
+            CvInvoke.MorphologyEx(metGrey, metGeryOutput, MorphOp.Open, structuringElement, new System.Drawing.Point(1, 1), trackBarValue, borderType, CvInvoke.MorphologyDefaultBorderValue);
             ImagePostBox.Image = metGeryOutput.ToImage<Bgr, byte>().Bitmap;
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -477,7 +541,7 @@ namespace ImageProcessingMM
             Mat metGrey = imageEmgu.Mat;
             Mat metGeryOutput = new Mat();
 
-            ElementShape elementShape = ElementShape.Cross;
+            ElementShape elementShape = elementShapee;
 
 
             CvInvoke.CvtColor(mat, metGrey, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
@@ -488,6 +552,57 @@ namespace ImageProcessingMM
            // CvInvoke.MorphologyEx(metGrey, metGeryOutput, MorphOp.Open, structuringElement, new System.Drawing.Point(1, 1), 2, BorderType.Isolated, CvInvoke.MorphologyDefaultBorderValue);
             ImagePostBox.Image = metGeryOutput.ToImage<Bgr, byte>().Bitmap;
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch(comboBox1.SelectedIndex)
+            {
+                case 0:
+                    scallingMethod = SccalingMethod.Scale;
+                    break;
+                case 1:
+                    scallingMethod = SccalingMethod.Cut;
+                    break;
+                case 2:
+                    scallingMethod = SccalingMethod.TriValue;
+                    break;
+            }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch(comboBox2.SelectedIndex)
+            {
+                case 0:
+                    kernelMethod = KernelMethod.UseExisting;
+                    break;
+                case 1:
+                    kernelMethod = KernelMethod.CloneBorder;
+                    break;
+                case 2:
+                    kernelMethod = KernelMethod.NoBorders;
+                    break;
+            }
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch(comboBox3.SelectedIndex)
+            {
+                case 0:
+                    elementShapee = ElementShape.Cross;
+                    break;
+                case 1:
+                    elementShapee = ElementShape.Rectangle;
+                    break;
+                    
+            }
         }
     }
 }

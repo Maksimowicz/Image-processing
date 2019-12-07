@@ -115,7 +115,7 @@ namespace ImageProcessingMM.EngineClasses
             {
                 for(int y = 0; y < Height; y++)
                 {
-                    helpValue = intTable[x + (y * Height)];
+                    helpValue = intTable[x + (y * Width)];
                     this.SetPixel(x, y, Color.FromArgb(helpValue, helpValue, helpValue));
                 }
             }
