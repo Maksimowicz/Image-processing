@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.ImageBox = new System.Windows.Forms.PictureBox();
             this.OpenFile = new System.Windows.Forms.Button();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
@@ -72,6 +72,11 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.DilatationBtn = new System.Windows.Forms.Button();
+            this.Erode = new System.Windows.Forms.Button();
+            this.Close = new System.Windows.Forms.Button();
+            this.Open = new System.Windows.Forms.Button();
+            this.Thinning = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.ChartGroup.SuspendLayout();
@@ -125,17 +130,17 @@
             // RedChannel
             // 
             this.RedChannel.BorderlineColor = System.Drawing.Color.Red;
-            chartArea4.Name = "ChartArea1";
-            this.RedChannel.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.RedChannel.Legends.Add(legend4);
+            chartArea1.Name = "ChartArea1";
+            this.RedChannel.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.RedChannel.Legends.Add(legend1);
             this.RedChannel.Location = new System.Drawing.Point(0, 71);
             this.RedChannel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.RedChannel.Name = "RedChannel";
-            series4.ChartArea = "ChartArea1";
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.RedChannel.Series.Add(series4);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.RedChannel.Series.Add(series1);
             this.RedChannel.Size = new System.Drawing.Size(1173, 421);
             this.RedChannel.TabIndex = 0;
             this.RedChannel.Text = "RedChannel";
@@ -521,11 +526,66 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // DilatationBtn
+            // 
+            this.DilatationBtn.Location = new System.Drawing.Point(1249, 321);
+            this.DilatationBtn.Name = "DilatationBtn";
+            this.DilatationBtn.Size = new System.Drawing.Size(75, 45);
+            this.DilatationBtn.TabIndex = 39;
+            this.DilatationBtn.Text = "Dilatation";
+            this.DilatationBtn.UseVisualStyleBackColor = true;
+            this.DilatationBtn.Click += new System.EventHandler(this.DilatationBtn_Click);
+            // 
+            // Erode
+            // 
+            this.Erode.Location = new System.Drawing.Point(1249, 371);
+            this.Erode.Name = "Erode";
+            this.Erode.Size = new System.Drawing.Size(75, 45);
+            this.Erode.TabIndex = 40;
+            this.Erode.Text = "Erode";
+            this.Erode.UseVisualStyleBackColor = true;
+            this.Erode.Click += new System.EventHandler(this.Erode_Click);
+            // 
+            // Close
+            // 
+            this.Close.Location = new System.Drawing.Point(1249, 422);
+            this.Close.Name = "Close";
+            this.Close.Size = new System.Drawing.Size(75, 45);
+            this.Close.TabIndex = 41;
+            this.Close.Text = "Close";
+            this.Close.UseVisualStyleBackColor = true;
+            this.Close.Click += new System.EventHandler(this.Close_Click);
+            // 
+            // Open
+            // 
+            this.Open.Location = new System.Drawing.Point(1249, 473);
+            this.Open.Name = "Open";
+            this.Open.Size = new System.Drawing.Size(75, 45);
+            this.Open.TabIndex = 42;
+            this.Open.Text = "Open";
+            this.Open.UseVisualStyleBackColor = true;
+            this.Open.Click += new System.EventHandler(this.Open_Click);
+            // 
+            // Thinning
+            // 
+            this.Thinning.Location = new System.Drawing.Point(1330, 319);
+            this.Thinning.Name = "Thinning";
+            this.Thinning.Size = new System.Drawing.Size(75, 47);
+            this.Thinning.TabIndex = 43;
+            this.Thinning.Text = "Thinning";
+            this.Thinning.UseVisualStyleBackColor = true;
+            this.Thinning.Click += new System.EventHandler(this.Thinning_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1564, 1036);
+            this.Controls.Add(this.Thinning);
+            this.Controls.Add(this.Open);
+            this.Controls.Add(this.Close);
+            this.Controls.Add(this.Erode);
+            this.Controls.Add(this.DilatationBtn);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
@@ -626,6 +686,11 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button DilatationBtn;
+        private System.Windows.Forms.Button Erode;
+        private System.Windows.Forms.Button Close;
+        private System.Windows.Forms.Button Open;
+        private System.Windows.Forms.Button Thinning;
     }
 }
 

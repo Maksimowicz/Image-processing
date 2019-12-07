@@ -10,14 +10,19 @@ using System.Windows.Forms;
 using ImageProcessingMM.EngineClasses;
 using System.Windows.Forms.DataVisualization.Charting;
 
+using Emgu.CV;
+using Emgu.CV.Structure;
+using Emgu.CV.CvEnum;
+using Emgu.CV.XImgproc;
+
 namespace ImageProcessingMM
 {
     public partial class Form1 : Form
     {
-       
+        Image<Bgr, byte> imageEmgu;
         ImageProcessingEngine imageProcessingEngine { get; set; }
         Boolean isGrey { get; set; }
-
+        string filePathInner { get; set; }
         
         
         public Form1()
@@ -46,7 +51,9 @@ namespace ImageProcessingMM
                     filePath = openFileDialog.FileName;
                     var fileStream = openFileDialog.OpenFile();
                     ImageBox.ImageLocation = filePath;
-                    
+                    //Dilation added using emguCV
+                    imageEmgu = new Image<Bgr, byte>(filePath);
+                    filePathInner = filePath;
 
                     ImageBox.SizeMode = PictureBoxSizeMode.StretchImage;
                     imageProcessingEngine = new ImageProcessingEngine(fileStream);
@@ -386,6 +393,100 @@ namespace ImageProcessingMM
         {
             imageProcessingEngine.sobelPrewwitOperation(DataTypes.KernelMethod.UseExisting, DataTypes.SccalingMethod.Scale, DataTypes.DirectionEdgeMask.Sobel);
             ImagePostBox.Image = Image.FromHbitmap(imageProcessingEngine.getPostImage());
+            ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+
+        //Buttons with EmguCV, will be replaced with own implementation and Emgu to compare results and controls
+        private void DilatationBtn_Click(object sender, EventArgs e)
+        {
+            Mat mat = imageEmgu.Mat;
+            Mat metGrey = new Mat();
+            Mat metGeryOutput = new Mat();
+
+            ElementShape elementShape = ElementShape.Cross;
+           
+
+            CvInvoke.CvtColor(mat, metGrey, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
+
+            Mat structuringElement = CvInvoke.GetStructuringElement(elementShape, new Size(3, 3), new Point(1, 1));
+         
+            CvInvoke.Dilate(metGrey, metGeryOutput, structuringElement, new System.Drawing.Point(1, 1), 2, BorderType.Isolated, CvInvoke.MorphologyDefaultBorderValue);
+            ImagePostBox.Image = metGeryOutput.ToImage<Bgr, byte>().Bitmap;
+            ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
+
+        }
+
+        private void Erode_Click(object sender, EventArgs e)
+        {
+            Mat mat = imageEmgu.Mat;
+            Mat metGrey = new Mat();
+            Mat metGeryOutput = new Mat();
+
+            ElementShape elementShape = ElementShape.Cross;
+
+
+            CvInvoke.CvtColor(mat, metGrey, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
+
+            Mat structuringElement = CvInvoke.GetStructuringElement(elementShape, new Size(3, 3), new Point(1, 1));
+
+            CvInvoke.Erode(metGrey, metGeryOutput, structuringElement, new System.Drawing.Point(1, 1), 2, BorderType.Isolated, CvInvoke.MorphologyDefaultBorderValue);
+            ImagePostBox.Image = metGeryOutput.ToImage<Bgr, byte>().Bitmap;
+            ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void Close_Click(object sender, EventArgs e)
+        {
+            Mat mat = imageEmgu.Mat;
+            Mat metGrey = new Mat();
+            Mat metGeryOutput = new Mat();
+
+            ElementShape elementShape = ElementShape.Cross;
+
+
+            CvInvoke.CvtColor(mat, metGrey, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
+
+            Mat structuringElement = CvInvoke.GetStructuringElement(elementShape, new Size(3, 3), new Point(1, 1));
+
+            CvInvoke.MorphologyEx(metGrey, metGeryOutput, MorphOp.Close, structuringElement, new System.Drawing.Point(1, 1), 2, BorderType.Isolated, CvInvoke.MorphologyDefaultBorderValue);
+            ImagePostBox.Image = metGeryOutput.ToImage<Bgr, byte>().Bitmap;
+            ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void Open_Click(object sender, EventArgs e)
+        {
+            Mat mat = imageEmgu.Mat;
+            Mat metGrey = new Mat();
+            Mat metGeryOutput = new Mat();
+
+            ElementShape elementShape = ElementShape.Cross;
+
+
+            CvInvoke.CvtColor(mat, metGrey, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
+
+            Mat structuringElement = CvInvoke.GetStructuringElement(elementShape, new Size(3, 3), new Point(1, 1));
+
+            CvInvoke.MorphologyEx(metGrey, metGeryOutput, MorphOp.Open, structuringElement, new System.Drawing.Point(1, 1), 2, BorderType.Isolated, CvInvoke.MorphologyDefaultBorderValue);
+            ImagePostBox.Image = metGeryOutput.ToImage<Bgr, byte>().Bitmap;
+            ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void Thinning_Click(object sender, EventArgs e)
+        {
+            Mat mat = imageEmgu.Mat;
+            Mat metGrey = imageEmgu.Mat;
+            Mat metGeryOutput = new Mat();
+
+            ElementShape elementShape = ElementShape.Cross;
+
+
+            CvInvoke.CvtColor(mat, metGrey, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
+
+            Mat structuringElement = CvInvoke.GetStructuringElement(elementShape, new Size(3, 3), new Point(1, 1));
+
+            XImgprocInvoke.Thinning(metGrey, metGeryOutput, ThinningTypes.GuoHall);
+           // CvInvoke.MorphologyEx(metGrey, metGeryOutput, MorphOp.Open, structuringElement, new System.Drawing.Point(1, 1), 2, BorderType.Isolated, CvInvoke.MorphologyDefaultBorderValue);
+            ImagePostBox.Image = metGeryOutput.ToImage<Bgr, byte>().Bitmap;
             ImagePostBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
     }

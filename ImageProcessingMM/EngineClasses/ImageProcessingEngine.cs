@@ -783,9 +783,9 @@ namespace ImageProcessingMM.EngineClasses
 
 
 
-            for (int x = 0; x < directBitmapPre.Height - xBond; ++x)
+            for (int x = 0; x < directBitmapPre.Width - xBond; ++x)
             {
-                for(int y = 0; y < directBitmapPre.Width - xBond; ++y)
+                for(int y = 0; y < directBitmapPre.Height - xBond; ++y)
                 {
                     maskSumFirst = new List<int>();
                     maskSumSecond = new List<int>();
@@ -897,9 +897,9 @@ namespace ImageProcessingMM.EngineClasses
 
             }
 
-            for (int x = overlap; x < directBitmapPre.Height - overlap; ++x)
+            for (int x = overlap; x < directBitmapPre.Width - overlap; ++x)
             {
-                for (int y = overlap; y < directBitmapPre.Width - overlap; ++y)
+                for (int y = overlap; y < directBitmapPre.Height - overlap; ++y)
                 {
                     maskSumFirst = new List<int>();
                     maskSumSecond = new List<int>();
@@ -942,9 +942,9 @@ namespace ImageProcessingMM.EngineClasses
             }
 
             int finalPixel = 0;
-            for (int x = 0; x < directBitmapPre.Height; x++)
+            for (int x = 0; x < directBitmapPre.Width; x++)
             {
-                for (int y = 0; y < directBitmapPre.Width; y++)
+                for (int y = 0; y < directBitmapPre.Height; y++)
                 {
                     finalPixel = bitmapPreScaleFirst[x + (y * directBitmapPre.Width)] + bitmapPreScaleSecond[x + (y * directBitmapPre.Width)];
                     resultImage[x + (y * directBitmapPre.Width)] = finalPixel;

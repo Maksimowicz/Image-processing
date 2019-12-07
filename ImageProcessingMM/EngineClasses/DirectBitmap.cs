@@ -111,11 +111,11 @@ namespace ImageProcessingMM.EngineClasses
         public void load(int[] intTable)
         {
             int helpValue = 0;
-            for(int x = 0; x < Height; x++)
+            for(int x = 0; x < Width; x++)
             {
-                for(int y = 0; y < Width; y++)
+                for(int y = 0; y < Height; y++)
                 {
-                    helpValue = intTable[x + (y * Width)];
+                    helpValue = intTable[x + (y * Height)];
                     this.SetPixel(x, y, Color.FromArgb(helpValue, helpValue, helpValue));
                 }
             }
