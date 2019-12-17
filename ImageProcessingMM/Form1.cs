@@ -41,7 +41,11 @@ namespace ImageProcessingMM
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            //Graphics gr = Graphics.FromImage(ImageBox.Image);
+            //using (Pen pen = new Pen(Color.Green, 2))
+            //{
+            //    gr.Draw
+            //}
             isGrey = false;
             var fileContent = string.Empty;
             var filePath = string.Empty;
@@ -67,6 +71,8 @@ namespace ImageProcessingMM
                     imageProcessingEngine = new ImageProcessingEngine(fileStream);
                     imageProcessingEngine.generateHistogram();
                     ImagePostBox.Image = null;
+
+                  //  ImageBox.Paint += 
                 }
 
             }

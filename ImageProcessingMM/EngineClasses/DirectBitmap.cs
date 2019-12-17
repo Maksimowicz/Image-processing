@@ -9,6 +9,135 @@ using System.Runtime.InteropServices;
 
 namespace ImageProcessingMM.EngineClasses
 {
+    public class HSVBit
+    {
+        public float HUE { get; set; } //[0-360]
+        public float saturation { get; set; } //[0-1]
+        public float value { get; set; } //[0-1]
+
+        private static float maxValue(params float[] values)
+        {
+            return values.Max();
+        }
+
+        private static float minValue(params float[] values)
+        {
+            return values.Min();
+        }
+
+        public Color getColor()
+        {
+            float c = this.value * this.saturation;
+            float x = c * (1 - Math.Abs((this.HUE / 60) % 2 - 1));
+            float m = this.value - c;
+
+            float rPrim = 0;
+            float gPrim = 0;
+            float bPrim = 0;
+
+            //R' G' B'
+            if (0 <= this.HUE && 60 >= this.HUE)
+            {
+                //C X 0
+                rPrim = c;
+                gPrim = x;
+                bPrim = 0;
+            }
+            else if(60 <= this.HUE && 120 >= this.HUE)
+            {
+                //X C 0
+                rPrim = x;
+                gPrim = c;
+                bPrim = 0;
+            }
+            else if(120 <= this.HUE && 180 >= this.HUE)
+            {
+                //0 C X
+                rPrim = 0;
+                gPrim = c;
+                bPrim = x;
+            }
+            else if(180 <= this.HUE && 240 >= this.HUE)
+            {
+                //0 X C
+                rPrim = 0;
+                gPrim = x;
+                bPrim = c;
+            }
+            else if(240 <= this.HUE && 300 >= this.HUE)
+            {
+                //X 0 C
+                rPrim = x;
+                gPrim = 0;
+                bPrim = c;
+            }
+            else if(300 <= this.HUE && 360 >= this.HUE)
+            {
+                //C 0 X
+                rPrim = c;
+                gPrim = 0;
+                bPrim = x;
+            }
+
+            //(R, G, B) = ((R'+m)×255, (G' + m)×255, (B'+m)×255)
+            return Color.FromArgb((int)((rPrim + m) * 255), (int)((gPrim + m) * 255), (int)((bPrim + m) * 255));
+
+
+        }
+
+        static public HSVBit getFromColor(Color color)
+        {
+            HSVBit hsvBit = new HSVBit();
+
+            float redPrim = (float)color.R / 255;
+            float greenPrim = (float)color.G / 255;
+            float bluePrim = (float)color.B / 255;
+
+            float cMax = HSVBit.maxValue(redPrim, greenPrim, bluePrim);
+            float cMin = HSVBit.minValue(redPrim, greenPrim, bluePrim);
+
+            float delta = cMax - cMin;
+
+            if(delta == 0)
+            {
+                hsvBit.HUE = 0;
+            }
+            else
+            {
+               if(cMax == redPrim)
+                {
+                    hsvBit.HUE = 60 * (((greenPrim - redPrim) / delta) % 6);
+                }
+               else if(cMax == greenPrim)
+                {
+                    hsvBit.HUE = 60 * ((bluePrim - redPrim) / delta + 2);
+                }
+               else if(cMax == bluePrim)
+                {
+                    hsvBit.HUE = 60 * ((redPrim - greenPrim) / delta + 4);
+                }
+            }
+
+            if(cMax == 0)
+            {
+                hsvBit.saturation = 0;
+            }
+            else
+            {
+                hsvBit.saturation = delta / cMax;
+            }
+
+            hsvBit.value = cMax;
+
+            return hsvBit;
+        }
+    }
+
+
+
+
+
+
     public class DirectBitmap : IDisposable
     {
         public Bitmap Bitmap { get; private set; }
@@ -17,6 +146,9 @@ namespace ImageProcessingMM.EngineClasses
         public int Height { get; private set; }
         public int Width { get; private set; }
 
+        public HSVBit[] HSVBits { get; private set; }
+
+        
     
 
         protected GCHandle BitsHandle { get; private set; }
@@ -131,6 +263,19 @@ namespace ImageProcessingMM.EngineClasses
         public Int32 getMax()
         {
             return Bits.Max(x => Color.FromArgb(x).R);
+        }
+
+
+        //Method to generate Array of HSV values
+        public void generateHSVBits()
+        {
+            HSVBits = new HSVBit[Width * Height];
+            int length = Bits.Length;
+
+            for(int i = 0; i < length; i++)
+            {
+                HSVBits[i] = HSVBit.getFromColor(Color.FromArgb(Bits[i]));
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ namespace ImageProcessingMM.LINQExtensions
 {
     public static class ImageProcessingExtensions
     {
+ 
         public static int Median(this IEnumerable<int> vs) //Method to allow calculate median in IEnumerables
         {
             int count = vs.Count();
