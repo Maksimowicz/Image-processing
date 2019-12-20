@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend10 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.ImageBox = new System.Windows.Forms.PictureBox();
             this.OpenFile = new System.Windows.Forms.Button();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
@@ -83,6 +83,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.saveBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.ChartGroup.SuspendLayout();
@@ -136,17 +137,17 @@
             // RedChannel
             // 
             this.RedChannel.BorderlineColor = System.Drawing.Color.Red;
-            chartArea10.Name = "ChartArea1";
-            this.RedChannel.ChartAreas.Add(chartArea10);
-            legend10.Name = "Legend1";
-            this.RedChannel.Legends.Add(legend10);
+            chartArea1.Name = "ChartArea1";
+            this.RedChannel.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.RedChannel.Legends.Add(legend1);
             this.RedChannel.Location = new System.Drawing.Point(14, 55);
             this.RedChannel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.RedChannel.Name = "RedChannel";
-            series10.ChartArea = "ChartArea1";
-            series10.Legend = "Legend1";
-            series10.Name = "Series1";
-            this.RedChannel.Series.Add(series10);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.RedChannel.Series.Add(series1);
             this.RedChannel.Size = new System.Drawing.Size(1173, 421);
             this.RedChannel.TabIndex = 0;
             this.RedChannel.Text = "RedChannel";
@@ -648,12 +649,23 @@
             this.label3.TabIndex = 49;
             this.label3.Text = "Structure shape";
             // 
+            // saveBtn
+            // 
+            this.saveBtn.Location = new System.Drawing.Point(1414, 371);
+            this.saveBtn.Name = "saveBtn";
+            this.saveBtn.Size = new System.Drawing.Size(71, 45);
+            this.saveBtn.TabIndex = 50;
+            this.saveBtn.Text = "SAVE";
+            this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1564, 1055);
+            this.Controls.Add(this.saveBtn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.label2);
@@ -776,6 +788,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.Button saveBtn;
     }
 }
 

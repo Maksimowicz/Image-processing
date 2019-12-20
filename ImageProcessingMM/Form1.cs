@@ -15,6 +15,8 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
 using Emgu.CV.XImgproc;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace ImageProcessingMM
 {
@@ -609,6 +611,12 @@ namespace ImageProcessingMM
                     break;
                     
             }
+        }
+
+        private void saveBtn_Click(object sender, EventArgs e)
+        {
+            string path = Directory.GetCurrentDirectory() + @"\postImage.jpeg";
+            ImagePostBox.Image.Save(path, ImageFormat.Jpeg);
         }
     }
 }
